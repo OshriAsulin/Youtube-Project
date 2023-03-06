@@ -5,12 +5,15 @@ import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutl
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import Comments from "../components/Comments";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import Card from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { fetchSuccess } from "../redux/videoSlice";
+import { dislike, fetchSuccess, like } from "../redux/videoSlice";
 import { format } from "timeago.js";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import { subscription } from "../redux/userSlice";
 
 const Container = styled.div`
   display: flex;
@@ -109,14 +112,20 @@ const Subscribe = styled.button`
   cursor: pointer;
 `;
 
+const VideoFrame = styled.video`
+  max-height: 720px;
+  width: 100%;
+  object-fit: cover;
+`;
+
 const Video = () => {
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video)
 
-  const dispatch = useDispatch();
   console.log('curr user--', currentUser)
   console.log('curr vid--', currentVideo)
   const path = useLocation().pathname.split("/")[2]
+  const dispatch = useDispatch();
   console.log('path', path)
 
   const [channel, setChannel] = useState({})
@@ -135,29 +144,57 @@ const Video = () => {
     fetchData()
   }, [path, dispatch])
 
+
+  const handleLike = async () => {
+    await axios.put(`/users/like/${currentVideo._id}`)
+    dispatch(like(currentUser._id))
+  }
+
+  const handleDisLike = async () => {
+    await axios.put(`/users/dislike/${currentVideo._id}`)
+    dispatch(dislike(currentUser._id))
+
+  }
+
+  const handlesub = async () => {
+    currentUser.subscribesUsers.includes(channel._id) ?
+      await axios.put(`/users/unsub/${channel._id}`) :
+      await axios.put(`/users/sub/${channel._id}`)
+    dispatch(subscription(channel._id));
+  }
+
+  const sub = {
+    backgroundColor: "green",
+    color: "white"
+  }
+  const unsub = {
+    backgroundColor: "red",
+    color: "white"
+  }
+
   return (
     <Container>
       <Content>
         <VideoWrapper>
-          <iframe
-            width="100%"
-            height="720"
-            src="https://www.youtube.com/embed/k3Vfj-e1Ma4"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+          {/* this the url wich disply in the tube */}
+        <VideoFrame src={currentVideo.videoUrl} controls />
         </VideoWrapper>
         <Title>{currentVideo.title}</Title>
         <Details>
           <Info>{currentVideo.views} views • {format(currentVideo.createdAt)}</Info>
           <Buttons>
-            <Button>
-              <ThumbUpOutlinedIcon /> {currentVideo.likes?.length}
+            <Button onClick={handleLike}>
+              {currentVideo.likes?.includes(currentUser._id) ? (<ThumbUpIcon />) :
+                (<ThumbUpOutlinedIcon />)}{" "}
+              {currentVideo.likes?.length}
             </Button>
-            <Button>
-              <ThumbDownOffAltOutlinedIcon /> Dislike
+            <Button onClick={handleDisLike}>
+              {currentVideo.dislikes?.includes(currentUser?._id) ? (
+                <ThumbDownIcon />
+              ) : (
+                <ThumbDownOffAltOutlinedIcon />
+              )}{" "}
+              Dislike
             </Button>
             <Button>
               <ReplyOutlinedIcon /> Share
@@ -179,7 +216,8 @@ const Video = () => {
               </Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe>SUBSCRIBE</Subscribe>
+          <Subscribe style={currentUser.subscribesUsers?.includes(channel._id) ? sub : unsub } onClick={handlesub}>
+            {currentUser.subscribesUsers?.includes(channel._id) ? "SUBSCRIBED" : "SUBSCRIBE"}</Subscribe>
         </Channel>
         <Hr />
         <Comments />

@@ -72,8 +72,8 @@ background-color: #999`
 
 const Navbar = () => {
   const {currentUser} = useSelector(state =>state.user)
+ 
   const dispatch = useDispatch()
-
   const logOut = () =>{
     dispatch(logout())
     // localStorage.removeItem("persist:root");

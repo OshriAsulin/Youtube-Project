@@ -61,11 +61,13 @@ const Card = ({ type,video }) => {
       const res = await axios.get(`/users/find/${video.userId}`);
       setChannel(res.data)
       console.log(res.data)
+      console.log('userid by video',video.userId)
+      console.log('videoid',video._id)
     }
     fetchChannel()
   }, [video.userId])
   return (
-    <Link to="/video/test" style={{ textDecoration: "none" }}>
+    <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
         <Image
           type={type}

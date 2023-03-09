@@ -1,0 +1,22 @@
+.logutDiv{
+    /* border: 1px solid red; */
+    height: 130px;
+    position: fixed;
+    top: 55px
+}
+.logoutbtn{
+    margin: auto;
+    color: black;
+}
+.logoutbtn:hover{
+    background-color: red;
+
+}
+.dropdownbtn{
+    color: white;
+    cursor: pointer;
+
+}
+.addbtn{
+    cursor: pointer;
+}

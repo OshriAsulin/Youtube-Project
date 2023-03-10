@@ -6,7 +6,7 @@ import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import Comments from "../components/Comments";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import Card from "../components/Card";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -14,6 +14,7 @@ import { dislike, fetchSuccess, like } from "../redux/videoSlice";
 import { format } from "timeago.js";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import { subscription } from "../redux/userSlice";
+import { Recommendation } from "../components/Recommendation";
 
 const Container = styled.div`
   display: flex;
@@ -61,9 +62,7 @@ const Hr = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
-const Recommendation = styled.div`
-  flex: 2;
-`;
+
 const Channel = styled.div`
   display: flex;
   justify-content: space-between;
@@ -119,15 +118,15 @@ const VideoFrame = styled.video`
 `;
 
 const Video = () => {
+  // debugger
   const { currentUser } = useSelector((state) => state.user);
-  const { currentVideo } = useSelector((state) => state.video)
-
+  const { currentVideo } = useSelector((state) => state.video);
+console.log('videurl-----',currentVideo.videoUrl)
   console.log('curr user--', currentUser)
   console.log('curr vid--', currentVideo)
   const path = useLocation().pathname.split("/")[2]
   const dispatch = useDispatch();
   console.log('path', path)
-
   const [channel, setChannel] = useState({})
   useEffect(() => {
     const fetchData = async () => {
@@ -177,7 +176,7 @@ const Video = () => {
       <Content>
         <VideoWrapper>
           {/* this the url wich disply in the tube */}
-        <VideoFrame src={currentVideo.videoUrl} controls />
+          <VideoFrame src={currentVideo.videoUrl} controls />
         </VideoWrapper>
         <Title>{currentVideo.title}</Title>
         <Details>
@@ -185,7 +184,7 @@ const Video = () => {
           <Buttons>
             <Button onClick={handleLike}>
               {currentVideo.likes?.includes(currentUser._id) ? (<ThumbUpIcon />) :
-                (<ThumbUpOutlinedIcon />)}{" "}
+                 (<ThumbUpOutlinedIcon />)}{" "} 
               {currentVideo.likes?.length}
             </Button>
             <Button onClick={handleDisLike}>
@@ -193,7 +192,7 @@ const Video = () => {
                 <ThumbDownIcon />
               ) : (
                 <ThumbDownOffAltOutlinedIcon />
-              )}{" "}
+              )}{" "} 
               Dislike
             </Button>
             <Button>
@@ -216,29 +215,23 @@ const Video = () => {
               </Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe style={currentUser.subscribesUsers?.includes(channel._id) ? sub : unsub } onClick={handlesub}>
+          <Subscribe style={currentUser.subscribesUsers?.includes(channel._id) ? sub : unsub} onClick={handlesub}>
             {currentUser.subscribesUsers?.includes(channel._id) ? "SUBSCRIBED" : "SUBSCRIBE"}</Subscribe>
         </Channel>
         <Hr />
-        <Comments videoId={currentVideo._id}/>
+        <Comments videoId={currentVideo._id} />
       </Content>
-      {/* <Recommendation>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-      </Recommendation> */}
+        <Recommendation tags={currentVideo.tags}/>
     </Container>
   );
 };
 
 export default Video;
+
+
+////todo: upload new video and check this
+//complete all what i want todo 
+
+
+
+///in evening learning auth

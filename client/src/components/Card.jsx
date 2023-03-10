@@ -11,10 +11,10 @@ const Container = styled.div`
   gap: 10px;
 `;
 
+// 
 const Image = styled.img`
   width: 100%;
-  height: ${(props) => (props.type === "sm" ? "120px" : "202px")};
-  background-color: #999;
+  height: ${(props) => (props.type === "sm" ? "120px" : "202px")};  background-color: #999;
   flex: 1;
 `;
 
@@ -60,9 +60,9 @@ const Card = ({ type,video }) => {
     const fetchChannel = async () => {
       const res = await axios.get(`/users/find/${video.userId}`);
       setChannel(res.data)
-      console.log(res.data)
-      console.log('userid by video',video.userId)
-      console.log('videoid',video._id)
+      // console.log(res.data)
+      // console.log('userid by video',video.userId)
+      // console.log('videoid',video._id)
     }
     fetchChannel()
   }, [video.userId])
@@ -71,7 +71,7 @@ const Card = ({ type,video }) => {
       <Container type={type}>
         <Image
           type={type}
-          src={video.imgUrl}
+          src={video.imgUrl} 
         />
         <Details type={type}>
           <ChannelImage

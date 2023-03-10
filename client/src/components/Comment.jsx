@@ -39,7 +39,6 @@ const Text = styled.span`
 
 const Comment = ({comment}) => {
 
-  const { currentUser } = useSelector((state) => state.user);
 
   const [channel, setChannel] = useState({})
   useEffect(()=>{
@@ -59,7 +58,7 @@ const Comment = ({comment}) => {
           {channel.name} <Date>1 day ago</Date>
         </Name>
         <Text>
-         {comment.desc}
+         {comment.description}
         </Text>
       </Details>
     </Container>

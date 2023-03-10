@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 import { logout } from "../redux/userSlice";
@@ -40,6 +40,7 @@ const Search = styled.div`
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 3px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Input = styled.input`
@@ -47,6 +48,7 @@ const Input = styled.input`
   background-color: transparent;
   outline: none;
   color: ${({ theme }) => theme.text};
+
 `;
 
 const Button = styled.button`
@@ -78,6 +80,8 @@ background-color: #999`
 
 const Navbar = () => {
   const { currentUser } = useSelector(state => state.user)
+  const [q, setQ] = useState("")
+const navigate = useNavigate();
   const [open, setOpen] = useState(false)
   const sopen = () => {
     setOpen(!open)
@@ -108,8 +112,8 @@ const Navbar = () => {
       <Container>
         <Wrapper>
           <Search>
-            <Input placeholder="Search" />
-            <SearchOutlinedIcon />
+            <Input placeholder="Search" onChange={e=>setQ(e.target.value)}/>
+            <SearchOutlinedIcon className="searchbtn" onClick={()=>navigate(`/search?q=${q}`)}/>
           </Search>
           {
             currentUser ? <ArrowDropDownCircleTwoToneIcon onClick={openLogoutbtn} className="dropdownbtn" />

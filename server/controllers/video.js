@@ -10,6 +10,7 @@ exports.addVideo = async (req, res, next) => {
         res.status(200).json(saveVideo)
     }
     catch (err) {
+        console.log('error here', err)
         next(err);
     }
 }

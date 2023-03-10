@@ -28,31 +28,55 @@ const Input = styled.input`
   width: 100%;
 `;
 
-const Comments = ({videoId}) => {
+const Comments = ({ videoId }) => {
 
   const { currentUser } = useSelector((state) => state.user);
-
   const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const res = await axios.get(`/comments/${videoId}`);
         setComments(res.data);
-      } catch (err) {}
+      } catch (err) { console.log(err) }
     };
     fetchComments();
-  }, [videoId]);
+  }, [videoId])
+
+  const change = (e) => {
+    // const updated = [...comments]
+    // updated[e.target.name] = e.target.value
+    // setComments(updated)
+    // setComments((prev) => {
+    //   return { ...prev, [e.target.name]: e.target.value };
+    // })
+  }
+
+  const handleAddComment = async (e) => {
+    e.preventDefault();
+    try {
+      debugger
+      const res = await axios.post(`/comments`, { videoId:videoId, description:newComment })
+      setComments([...comments, res.data])
+      console.log(res.data)
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
 
   return (
     <Container>
       <NewComment>
         <Avatar src={currentUser.img} />
-        <Input placeholder="Add a comment..." />
+        <Input placeholder="Add a comment..." value={newComment} onChange={e => setNewComment(e.target.value)} />
+        <button onClick={handleAddComment} >add comment</button>
       </NewComment>
       {
-        comments.map(comment=>(
+        comments.map(comment => (
 
-          <Comment key={comment._id} comment={comment}/>
+          <Comment key={comment._id} comment={comment} />
         ))
       }
     </Container>
@@ -60,3 +84,8 @@ const Comments = ({videoId}) => {
 };
 
 export default Comments;
+
+//todolist
+// fix add new comment
+//add new videos with desc
+//add all what i writed in note 

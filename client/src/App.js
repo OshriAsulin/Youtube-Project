@@ -3,12 +3,14 @@ import styled, { ThemeProvider } from "styled-components";
 import Menu from "./components/Menu";
 import Navbar from "./components/Navbar";
 import { darkTheme, lightTheme } from "./utils/Theme";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
 import Home from "./pages/Home";
 import Video from "./pages/Video";
 import SignIn from "./pages/SignIn";
 import { Search } from "./pages/Search";
-
+import { useSelector } from "react-redux";
+import Swal from 'sweetalert2'
+import { Switch } from "@mui/material";
 const Container = styled.div`
   display: flex;
 `;
@@ -23,6 +25,15 @@ const Wrapper = styled.div`
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
+  const { currentUser } = useSelector((state) => state.user);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(!currentUser);
+
+
+
+
+
+
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
@@ -35,20 +46,22 @@ function App() {
               <Routes>
                 <Route path="/">
                   <Route path="signin" element={<SignIn />} />
-                  <Route index element={<Home type="random"/>} />
-                  <Route path="trends" element={<Home type="trend"/>} />
-                  <Route path="subscriptions" element={<Home type="sub"/>} />
-                  <Route path="search" element={<Search/>} />
-                  <Route path="video">
-                    <Route path=":id" element={<Video />} />
-                  </Route>
+                  <Route index element={<Home type="random" />} />
+                  <Route path="trends" element={<Home type="trend" />} />
+                  <Route path="subscriptions" element={<Home type="sub" />} />
+                  <Route path="search" element={<Search />} />
+                  <Route path="signin" element={<SignIn />} />
+                    <Route path="video">
+                      <Route path=":id" element={<Video />} />
+                    </Route>
                 </Route>
               </Routes>
             </Wrapper>
           </Main>
         </BrowserRouter>
       </Container>
-    </ThemeProvider>
+    </ThemeProvider >
+
   );
 }
 

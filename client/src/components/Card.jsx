@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import {format} from "timeago.js"
+import { format } from "timeago.js"
+import Swal from 'sweetalert2'
+
 const Container = styled.div`
   width: ${(props) => props.type !== "sm" && "360px"};
   margin-bottom: ${(props) => (props.type === "sm" ? "10px" : "45px")};
@@ -52,7 +55,8 @@ const Info = styled.div`
   color: ${({ theme }) => theme.textSoft};
 `;
 
-const Card = ({ type,video }) => {
+const Card = ({ type, video }) => {
+  const { currentUser } = useSelector((state) => state.user);
   const [channel, setChannel] = useState({})
 
 
@@ -66,26 +70,33 @@ const Card = ({ type,video }) => {
     }
     fetchChannel()
   }, [video.userId])
+
+
   return (
-    <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
-      <Container type={type}>
-        <Image
-          type={type}
-          src={video.imgUrl} 
-        />
-        <Details type={type}>
-          <ChannelImage
+    <>
+ 
+      <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
+        <Container type={type}>
+          <Image
             type={type}
-            src={channel.img}
+            src={video.imgUrl}
           />
-          <Texts>
-            <Title>{video.title}</Title>
-            <ChannelName>{channel.name} </ChannelName>
-            <Info>{video.views} views • {format(video.createdAt)}</Info>
-          </Texts>
-        </Details>
-      </Container>
-    </Link>
+          <Details type={type}>
+            <ChannelImage
+              type={type}
+              src={channel.img}
+            />
+            <Texts>
+              <Title>{video.title}</Title>
+              <ChannelName>{channel.name} </ChannelName>
+
+              <Info>{video.views} views • {format(video.createdAt)}</Info>
+            </Texts>
+
+          </Details>
+        </Container>
+      </Link> 
+    </>
   );
 };
 

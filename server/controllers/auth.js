@@ -4,12 +4,7 @@ const bcrypt = require('bcrypt');
 const { creatError } = require('../error');
 const jwt = require('jsonwebtoken');
 
-// const router = express.Router()
 
-
-// router.get('/', (req, res) => {
-
-// })
 
 //signup/ register
 exports.signup = async (req, res, next) => {
@@ -99,6 +94,3 @@ exports.googleAuth = async (req, res, next) => {
     }
 }
 
-//check where all users is saving in database
-//check from where the axios get the url 
-//continue from 2:27:00 and check the google auth is work 

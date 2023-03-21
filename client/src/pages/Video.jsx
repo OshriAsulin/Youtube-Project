@@ -122,7 +122,7 @@ const Video = () => {
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
 console.log('videurl-----',currentVideo.videoUrl)
-  console.log('curr user--', currentUser)
+  // console.log('curr user--', currentUser)
   console.log('curr vid--', currentVideo)
   const path = useLocation().pathname.split("/")[2]
   const dispatch = useDispatch();
@@ -176,11 +176,15 @@ console.log('videurl-----',currentVideo.videoUrl)
       <Content>
         <VideoWrapper>
           {/* this the url wich disply in the tube */}
-          <VideoFrame src={currentVideo.videoUrl} controls />
+          <VideoFrame src={currentVideo.videoUrl} controls style={{cursor:'pointer'}} />
         </VideoWrapper>
         <Title>{currentVideo.title}</Title>
         <Details>
-          <Info>{currentVideo.views} views • {format(currentVideo.createdAt)}</Info>
+          <Info>{currentVideo.views} views • {format(currentVideo.createdAt)}
+          <br/>
+          <Info>Tags:{currentVideo.tags}</Info>
+          </Info>
+          
           <Buttons>
             <Button onClick={handleLike}>
               {currentVideo.likes?.includes(currentUser._id) ? (<ThumbUpIcon />) :
@@ -211,7 +215,7 @@ console.log('videurl-----',currentVideo.videoUrl)
               <ChannelName>{channel.name}</ChannelName>
               <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
               <Description>
-                {currentVideo.desc}
+                {currentVideo.description}
               </Description>
             </ChannelDetail>
           </ChannelInfo>

@@ -115,7 +115,7 @@ const navigate = useNavigate();
 
             </div>
           }
-          <button onClick={logOut}>delete</button>
+          {/* <button onClick={logOut}>delete</button> */}
           {currentUser ? (
             <User>
               <VideoCallOutlinedIcon className="addbtn" onClick={sopen} />

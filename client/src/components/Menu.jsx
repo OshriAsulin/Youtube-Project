@@ -88,7 +88,7 @@ const Menu = ({ darkMode, setDarkMode }) => {
 
 
   return (
-    <Container>
+    <Container className="menu">
       <Wrapper>
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
           <Logo>

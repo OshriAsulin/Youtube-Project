@@ -43,7 +43,7 @@ app.use((err, req, res, next) => {
 });
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/YoutubeProject')
+mongoose.connect(process.env.MONGODB_URI)
     .then(async () => {
         console.log('connected to db');
         app.listen(process.env.PORT, () => {

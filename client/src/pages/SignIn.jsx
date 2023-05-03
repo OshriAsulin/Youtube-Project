@@ -90,10 +90,14 @@ const SignIn = () => {
   }
 
 const handleRegister = async (e) =>{
+  e.preventDefault()
   try{
-
+const res = await axios.post("auth/signup", {name, email, password})
+dispatch(loginSuccess(res.data));
+console.log(res.data);
   }catch(err){
-    
+    dispatch(loginFailure());
+    console.log(err);
   }
 }
 

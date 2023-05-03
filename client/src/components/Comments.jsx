@@ -55,7 +55,6 @@ const Comments = ({ videoId }) => {
   const handleAddComment = async (e) => {
     e.preventDefault();
     try {
-      debugger
       const res = await axios.post(`/comments`, { videoId:videoId, description:newComment })
       setComments([...comments, res.data])
       console.log(res.data)

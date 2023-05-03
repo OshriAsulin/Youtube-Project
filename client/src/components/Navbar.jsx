@@ -93,19 +93,6 @@ const navigate = useNavigate();
   const dispatch = useDispatch()
   const logOut = () => {
     dispatch(logout())
-    // localStorage.removeItem("persist:root");
-    // const cookies = Cookies
-    // cookies.remove('access_token')
-    // let removeCookie = browser.Cookies.remove('access_token', )
-    // Cookies.remove('access_token', { path:'http://localhost:3000/signin'})
-
-
-    // const cookies = new Cookies();
-
-    // console.log(cookies.get())
-
-
-
   }
   return (
     <>
